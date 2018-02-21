@@ -2,9 +2,9 @@
   title: Executive Summary
   layout: grid
   rows:
-    - elements: [add_a_unique_name_1462169894754, add_a_unique_name_1462169986635, add_a_unique_name_1462170018213, add_a_unique_name_1462170265666, add_a_unique_name_1462169944434]
+    - elements: [add_a_unique_name_1462169894754, add_a_unique_name_1462169986635, add_a_unique_name_1462170018213, add_a_unique_name_1462169944434]
       height: 200
-    - elements: [add_a_unique_name_1462170071843, add_a_unique_name_1462170103121, add_a_unique_name_1462170131608, add_a_unique_name_1462170158647, add_a_unique_name_1462170192768, add_a_unique_name_1462170234178]
+    - elements: [add_a_unique_name_1462170071843, add_a_unique_name_1462170103121, add_a_unique_name_1462170131608, add_a_unique_name_1462170234178]
       height: 200
     - elements: [add_a_unique_name_1462170298899, add_a_unique_name_1462170478391]
       height: 400
@@ -26,7 +26,6 @@
     explore: calendar
     measures: [charges.total_gross_amount]
     sorts: [charges.total_gross_amount desc]
-    limit: 500
     listen:
       charge_date: calendar.cal_date_month
     font_size: small
@@ -42,7 +41,6 @@
       charge_date: calendar.cal_date_month
     measures: [charges.total_failed_charges]
     sorts: [charges.total_failed_charges desc]
-    limit: 500
     font_size: small
     value_format: ''
     text_color: black
@@ -56,7 +54,6 @@
       charge_date: calendar.cal_date_month
     measures: [charges.total_refunds]
     sorts: [charges.total_refunds desc]
-    limit: 500
     font_size: small
     value_format: ''
     text_color: black
@@ -70,7 +67,6 @@
       charge_date: calendar.cal_date_month
     measures: [charges.total_net_amount]
     sorts: [charges.total_net_amount desc]
-    limit: 500
     font_size: small
     value_format: ''
     text_color: black
@@ -84,7 +80,6 @@
       charge_date: calendar.cal_date_month
     measures: [charges.charge_count]
     sorts: [charges.charge_count desc]
-    limit: 500
     font_size: small
     value_format: ''
     text_color: black
@@ -100,7 +95,6 @@
     filters:
       charges.status: failed
     sorts: [charges.charge_count desc]
-    limit: 500
     font_size: small
     value_format: ''
     text_color: black
@@ -114,39 +108,6 @@
       charge_date: calendar.cal_date_month
     measures: [charges.refund_count]
     sorts: [charges.refund_count desc]
-    limit: 500
-    font_size: small
-    value_format: ''
-    text_color: black
-
-  - name: add_a_unique_name_1462170158647
-    title: Total Unpaid Invoices Count
-    type: single_value
-    model: segment_stripe
-    listen:
-      charge_date: calendar.cal_date_month
-    explore: calendar
-    measures: [invoices.count]
-    filters:
-      invoices.paid: 'No'
-    sorts: [invoices.count desc]
-    limit: 500
-    font_size: small
-    value_format: ''
-    text_color: black
-
-  - name: add_a_unique_name_1462170192768
-    title: Total Unpaid Invoices Amount
-    type: single_value
-    model: segment_stripe
-    explore: calendar
-    listen:
-      charge_date: calendar.cal_date_month
-    measures: [invoices.total_amount_due]
-    filters:
-      invoices.paid: 'No'
-    sorts: [invoices.total_amount_due desc]
-    limit: 500
     font_size: small
     value_format: ''
     text_color: black
@@ -160,22 +121,8 @@
       charge_date: customers.created_date
     measures: [customers.count]
     sorts: [customers.count desc]
-    limit: 500
     font_size: small
     text_color: '#49719a'
-
-  - name: add_a_unique_name_1462170265666
-    title: Average Days to Payment Received
-    type: single_value
-    model: segment_stripe
-    explore: calendar
-    listen:
-      charge_date: calendar.cal_date_month
-    measures: [charges.avg_days_until_received]
-    sorts: [charges.outstanding_charge_time desc, charges.avg_days_until_received desc]
-    limit: 500
-    font_size: small
-    text_color: black
 
   - name: add_a_unique_name_1462170298899
     title: Charge Status
@@ -187,7 +134,6 @@
     filters:
       charges.status: -NULL
     sorts: [invoices.total_amount_due desc]
-    limit: 500
     listen:
       charge_date: calendar.cal_date_month
     column_limit: 50
@@ -210,16 +156,15 @@
     - table_calculation: failed_charges
       label: Failed Charges
       expression: -1 * ${charges.total_failed_charges}
-      value_format_name: usd
+      value_format_name: eur
     - table_calculation: refunds
       label: Refunds
       expression: -1 * ${charges.total_refunds}
-      value_format_name: usd
+      value_format_name: eur
     hidden_fields: [charges.total_net_amount, charges.total_failed_charges, charges.total_refunds]
     listen:
       charge_date: calendar.cal_date_month
     sorts: [calendar.cal_date_date]
-    limit: 500
     stacking: ''
     colors: ['#94cf78', '#bf7d75', '#0c0d0c', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f',
       '#ff7f00', '#cab2d6', '#6a3d9a', '#edbc0e', '#b15928']
@@ -252,7 +197,6 @@
     listen:
       charge_date: calendar.cal_date_month
     sorts: [calendar.cal_date_date]
-    limit: 500
     stacking: ''
     colors: ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f',
       '#ff7f00', '#cab2d6', '#6a3d9a', '#edbc0e', '#b15928']

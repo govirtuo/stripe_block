@@ -8,8 +8,6 @@
       height: 200
     - elements: [add_a_unique_name_1462199876088, add_a_unique_name_1462199878233]
       height: 200
-    - elements: [add_a_unique_name_1462199880688]
-      height: 400
     - elements: [add_a_unique_name_1462199883129]
       height: 400
 
@@ -20,7 +18,7 @@
     type: field_filter
     explore: customer
     field: customers.email
-    default_value: 8624702d9c382858919e0b9005e85b64cfa2bc92@gmail.com # change filter value if applicable
+    default_value: pebois@govirtuo.com
 
   elements:
 
@@ -31,7 +29,7 @@
     explore: customer
     listen:
       customer_email: customers.email
-    dimensions: [customers.email, customers.created_date, customers.delinquent, customers.currency]
+    dimensions: [customers.id, customers.metadata_user_id, customers.email, customers.created_date, customers.delinquent]
     sorts: [customers.email]
     limit: 1
     show_view_names: false
@@ -135,23 +133,6 @@
     font_size: small
     value_format: ''
     text_color: black
-
-  - name: add_a_unique_name_1462199880688
-    title: Customer Invoices
-    type: table
-    model: segment_stripe
-    listen:
-      customer_email: customers.email
-    explore: calendar
-    dimensions: [invoices.id, invoices.date_date, invoices.closed, invoices.paid, invoices.attempt_count]
-    measures: [invoices.total_amount_due]
-    sorts: [invoices.paid, invoices.date_date]
-    limit: 500
-    show_view_names: false
-    show_row_numbers: false
-    truncate_column_names: false
-    table_theme: white
-    limit_displayed_rows: false
 
   - name: add_a_unique_name_1462199883129
     title: Charges Over Time

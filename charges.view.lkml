@@ -10,13 +10,13 @@ view: charges {
   dimension: amount {
     type: number
     sql: ${TABLE}.amount*1.0/100 ;;
-    value_format: "$#,##0.00"
+    value_format: "\"€\"#0.00"
   }
 
   dimension: amount_refunded {
     type: number
     sql: ${TABLE}.amount_refunded*1.0/100 ;;
-    value_format: "$#,##0.00"
+    value_format: "\"€\"#0.00"
   }
 
   dimension: captured {
@@ -51,12 +51,6 @@ view: charges {
     sql: ${TABLE}.failure_code ;;
   }
 
-  dimension: invoice_id {
-    type: string
-    # hidden: true
-    sql: ${TABLE}.invoice_id ;;
-  }
-
   dimension: paid {
     type: yesno
     sql: ${TABLE}.paid ;;
@@ -87,21 +81,21 @@ view: charges {
   measure: avg_days_until_received {
     type: average
     sql: ${days_until_received} ;;
-    value_format: "#0.00"
+    value_format: "\"€\"#0.00"
     drill_fields: [detail*]
   }
 
   measure: total_gross_amount {
     type: sum
     sql: ${amount} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
     drill_fields: [detail*]
   }
 
   measure: total_failed_charges {
     type: sum
     sql: ${amount} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
     drill_fields: [detail*]
 
     filters: {
@@ -113,39 +107,39 @@ view: charges {
   measure: total_refunds {
     type: sum
     sql: ${amount_refunded} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
     drill_fields: [detail*]
   }
 
   measure: total_net_amount {
     type: number
     sql: ${total_gross_amount} - ${total_refunds} - ${total_failed_charges} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
     drill_fields: [detail*]
   }
 
   measure: cumulative_gross {
     type: running_total
     sql: ${total_gross_amount} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
   }
 
   measure: cumulative_refunds {
     type: running_total
     sql: ${total_refunds} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
   }
 
   measure: cumulative_net {
     type: running_total
     sql: ${total_net_amount} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
   }
 
   measure: avg_charge_amount {
     type: average
     sql: ${amount} ;;
-    value_format: "[>=1000000]$0.00,,\"M\";[>=1000]$0.00,\"K\";$0.00"
+    value_format: "[>=1000000]\"€\"#0.00,,\"M\";[>=1000]\"€\"#0.00,\"K\";\"€\"#0.00"
   }
 
   measure: charge_count {
@@ -155,7 +149,7 @@ view: charges {
 
   measure: refund_count {
     type: count
-    drill_fields: [id, customers.id, invoices.id, invoices.count, refunds.count]
+    drill_fields: [id, customers.id]
 
     filters: {
       field: refunded
@@ -172,7 +166,6 @@ view: charges {
       amount_refunded,
       currency,
       paid,
-      invoice_id,
       failure_code,
       received_time,
       created_time,

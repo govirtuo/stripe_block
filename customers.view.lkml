@@ -23,16 +23,17 @@ view: customers {
     sql: ${TABLE}.delinquent ;;
   }
 
-  dimension: discount_id {
-    type: string
-    # hidden: true
-    sql: ${TABLE}.discount_id ;;
-  }
-
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
-    html: <a href="/dashboards/segment_stripe::customer_lookup?Customer%20Email={{ value }}">{{ value }}</a>
+    html: <a href="/dashboards/segment_stripe::customer_lookup?customer_email={{ value }}">{{ value }}</a>
+      ;;
+  }
+
+  dimension: metadata_user_id {
+    type: string
+    sql: ${TABLE}.metadata_user_id ;;
+    html: <a href="https://virtuo-back-office-prod.herokuapp.com/user/{{ value }}">{{ value }}</a>
       ;;
   }
 
@@ -53,12 +54,7 @@ view: customers {
       id,
       customers.email,
       customers.created_date,
-      discounts.id,
-      charges.count,
-      discounts.count,
-      invoice_items.count,
-      invoices.count,
-      subscriptions.count
+      charges.count
     ]
   }
 }
