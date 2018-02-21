@@ -34,12 +34,6 @@ view: refunds {
     sql: ${TABLE}.currency ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [time, date, week, month]
-    sql: ${TABLE}.received_at ;;
-  }
-
   measure: count {
     type: count
     drill_fields: [id, charges.id]

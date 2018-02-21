@@ -3,7 +3,7 @@ view: calendar {
     sql_trigger_value: select current_date ;;
     indexes: ["cal_date"]
     sql: SELECT
-        '2012-11-01'::date +
+        '2015-01-01'::date +
           (p0.n
           + p1.n*2
           + p2.n * POWER(2,2)
@@ -30,7 +30,7 @@ view: calendar {
           (SELECT 0 as n UNION SELECT 1) p9,
           (SELECT 0 as n UNION SELECT 1) p10
         WHERE
-        '2012-11-01'::date +
+        '2015-01-01'::date +
           (p0.n
           + p1.n*2
           + p2.n * POWER(2,2)

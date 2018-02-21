@@ -37,18 +37,13 @@ view: customers {
       ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [time, date, week, month]
-    sql: ${TABLE}.received_at ;;
-  }
-
   measure: count {
     type: count
     drill_fields: [detail*]
   }
 
   # ----- Sets of fields for drilling ------
+
   set: detail {
     fields: [
       id,

@@ -1,6 +1,8 @@
 view: charges {
   sql_table_name: stripe.charges ;;
+
   ## Dimensions
+
   dimension: id {
     primary_key: yes
     type: string
@@ -56,12 +58,6 @@ view: charges {
     sql: ${TABLE}.paid ;;
   }
 
-  dimension_group: received {
-    type: time
-    timeframes: [time, date, week, month]
-    sql: ${TABLE}.received_at ;;
-  }
-
   dimension: refunded {
     type: yesno
     sql: ${TABLE}.refunded ;;
@@ -73,17 +69,6 @@ view: charges {
   }
 
   ## Measures
-  dimension: days_until_received {
-    type: number
-    sql: datediff('days',${created_date},${received_date}) ;;
-  }
-
-  measure: avg_days_until_received {
-    type: average
-    sql: ${days_until_received} ;;
-    value_format: "\"€\"#0.00"
-    drill_fields: [detail*]
-  }
 
   measure: total_gross_amount {
     type: sum
@@ -157,7 +142,8 @@ view: charges {
     }
   }
 
-  # ----- Sets of fields for drilling ------
+  # ----- Sets of fields for drilling -----
+
   set: detail {
     fields: [
       id,
@@ -167,7 +153,6 @@ view: charges {
       currency,
       paid,
       failure_code,
-      received_time,
       created_time,
       customers.email
     ]
